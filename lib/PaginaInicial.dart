@@ -13,7 +13,7 @@ class _CampoTextoState extends State<CampoTexto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Alcool ou Gasolina2"),
+        title: Text("Alcool ou Gasolina"),
       ),
       body: Padding(
           padding: EdgeInsets.all(32),
