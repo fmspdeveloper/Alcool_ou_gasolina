@@ -9,6 +9,32 @@ class CampoTexto extends StatefulWidget {
 }
 
 class _CampoTextoState extends State<CampoTexto> {
+  TextEditingController _controllerAlcool = TextEditingController();
+  TextEditingController _controllerGasolina = TextEditingController();
+
+  void _calcular() {
+    double precoAlcool = double.parse(_controllerAlcool.text);
+    double precoGasolina = double.parse(_controllerGasolina.text);
+
+    if ((precoAlcool / precoGasolina) >= 0.7) {
+      setState(() {
+        _resultado = "melhor abastecer com gasolina:";
+      });
+    } else {
+      setState(() {
+        _resultado = "melhor abastecer com alcool";
+      });
+    }
+    _limparCampos();
+  }
+
+  void _limparCampos() {
+    _controllerGasolina.text = "";
+    _controllerAlcool.text = "";
+  }
+
+  var _resultado = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,36 +55,28 @@ class _CampoTextoState extends State<CampoTexto> {
               ),
               TextField(
                 keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                ],
                 decoration: InputDecoration(hintText: 'Preço Alcool, ex: 2.09'),
-                onChanged: (texto) {
-                  print("usuario digitou: $texto");
-                },
+                controller: _controllerAlcool,
               ),
               TextField(
                 keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                ],
                 decoration:
                     InputDecoration(hintText: 'Preço gasolina, ex: 5.09'),
-                onChanged: (texto) {
-                  print("usuario digitou: $texto");
-                },
+                controller: _controllerGasolina,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _calcular,
                 child: Container(
                   child: Text('calcular'),
                 ),
                 style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(
-                    Size(double.infinity, 50),
-                  ),
-                ),
-              )
+                    minimumSize:
+                        MaterialStateProperty.all(Size(double.infinity, 50))),
+              ),
+              Text(
+                "$_resultado",
+                style: TextStyle(fontSize: 20),
+              ),
             ],
           )),
     );
